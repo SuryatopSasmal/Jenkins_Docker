@@ -3,10 +3,21 @@ pipeline {
 
     environment {
         VENV = 'venv'
+        PYTHON = 'python'
     }
 
     stages {
-        stage("Install") {
+        stage("Install Git and Python") {
+            steps {
+                bat '''
+                    choco install -y git
+                    choco install -y python
+                    refreshenv
+                '''
+            }
+        }
+
+        stage("Setup Python Environment") {
             steps {
                 bat '''
                     python --version
@@ -20,20 +31,27 @@ pipeline {
 
         stage("Linting") {
             steps {
-                echo "This is my Linting Step"
+                echo "Linting the code..."
             }
         }
 
         stage("Install Packages") {
             steps {
-                echo "This is Install Packages Step"
+                echo "Installing additional packages..."
+            }
+        }
+
+        stage("Build Docker Image") {
+            steps {
+                bat 'docker build -t myapp:latest .'
             }
         }
 
         stage("Run Application") {
             steps {
-                echo "This is my Run Application Step"
+                echo "Running the application..."
             }
         }
     }
 }
+
