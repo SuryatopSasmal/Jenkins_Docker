@@ -6,32 +6,33 @@ pipeline {
     }
 
     stages {
-        stage ("Install") {
+        stage("Install") {
             steps {
                 bat '''
+                    python --version
                     python -m venv %VENV%
                     call %VENV%\\Scripts\\activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
+                    %VENV%\\Scripts\\pip.exe install --upgrade pip
+                    %VENV%\\Scripts\\pip.exe install -r requirements.txt
                 '''
             }
         }
 
-        stage ("Linting") {
+        stage("Linting") {
             steps {
                 echo "This is my Linting Step"
             }
         }
 
-        stage ("Install Packages") {
+        stage("Install Packages") {
             steps {
                 echo "This is Install Packages Step"
             }
         }
 
-        stage ("Run Application") {
+        stage("Run Application") {
             steps {
-                echo "This is my Run application Step"
+                echo "This is my Run Application Step"
             }
         }
     }
